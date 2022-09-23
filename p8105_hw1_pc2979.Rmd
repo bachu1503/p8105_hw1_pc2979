@@ -1,0 +1,101 @@
+---
+title: "Homework 1"
+output:   
+  github_document:
+---
+
+## Load packages
+```{r, eval = FALSE}
+library(tidyverse)
+```
+
+
+## Problem 1 
+```{r}
+data("penguins", package = "palmerpenguins")
+
+nrow(penguins)
+ncol(penguins)
+# Total of 344 observations with 8 variables
+
+head(penguins)
+# Important variables include: species, body_mass_g, sex, year, flipper_length_mm
+
+mean(penguins$flipper_length_mm, na.rm = TRUE)
+# mean flipper length in mm: 200.9152
+
+penguin_scatter <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
+ggsave("penguin_scatter_plot.pdf", plot = penguin_scatter)
+```
+
+
+## Data Import: CSVs
+
+Let's import data using the 'readr' package
+
+```{r}
+litters_df <- read_csv('data/FAS_litters.csv')
+litters_df <- janitor::clean_names(litters_df)
+```
+
+
+Look at table
+```{r}
+head(litters_df)
+tail(litters_df)
+skimr::skim(litters_df)
+```
+
+
+'read_csv' options..
+```{r}
+read_csv('data/FAS_litters.csv', na = c("", "NA", 999, 88), skip = 2)
+?read_csv
+# can also set variable type
+```
+
+## Other file formats
+
+We need to read in an excel spreadsheet...
+```{r}
+mlb_df <- read_excel('data/mlb11.xlsx')
+```
+
+```{r, eval = FALSE}
+view(mlb_df)
+```
+
+```{r}
+lotr_words_df <-
+  read_excel(
+    'data/LotR_Words.xlsx',
+    range = "B3:D6"
+  )
+```
+
+## Still more formats ...
+
+Read in SAS dataset
+```{r}
+pulse_df <- read_sas('data/public_pulse_data.sas7bdat')
+```
+
+
+## Data Export
+
+```{r}
+write_csv(lotr_words_df, file = 'data/results/lotr_words_df.csv')
+```
+
+## Why not base r???
+```{r}
+dont_do_this_df <- read.csv('data/FAS_litters.csv')
+```
+read.csv saves as data.frame, forces format but not able to change
+ALWAYS use read_csv
+
+## Git ignore
+anything typed into file will be ignored and won't be uploaded to GitHub (i.e patient data)
+make sure to save/commit/push
+
+
