@@ -17,18 +17,18 @@ Write a short description of the penguins dataset (not the penguins_raw dataset)
 * the data in this dataset, including names / values of important variables
 * the size of the dataset (using nrow and ncol)
 * the mean flipper length
-```{r}
+```{r, collapse = TRUE}
 data("penguins", package = "palmerpenguins")
 
+# Total of 344 observations with 8 variables
 nrow(penguins)
 ncol(penguins)
-# Total of 344 observations with 8 variables
 
-head(penguins)
 # Important variables include: species, body_mass_g, sex, year, flipper_length_mm
+head(penguins)
 
-mean(penguins$flipper_length_mm, na.rm = TRUE)
 # mean flipper length in mm: 200.9152
+mean(penguins$flipper_length_mm, na.rm = TRUE)
 
 penguin_scatter <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + 
   geom_point() +
@@ -53,18 +53,23 @@ df <- tibble(
   norm = rnorm(10, sd = 1),
   logic = c(FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE),
   char = c("hi", "my", "name", "is", "barry", "and", "i", "go", "to", "mailman"),
-  factor = factor(c("1", "2", "3", "1", "2", "3", "1", "2", "3", "1"))
+  factor = factor(c("blue", "yellow", "orange", "blue", "yellow", "orange", "blue", "yellow", "orange", "blue"))
   )
 ```
 
-Try to take the mean of each variable in your dataframe. What works and what doesn’t?
 
-```{r}
+```{r, collapse = TRUE}
 mean(df$norm)
 mean(df$logic)
 mean(df$char)
 mean(df$factor)
-# We are able to take the mean of norm and logic.
 ```
+We are able to take the mean of norm and logic.
 
 
+```{r, eval = FALSE}
+as.numeric(df$logic)
+as.numeric(df$char)
+as.numeric(df$factor)
+```
+We see the logical and factor variables become numerical variables while the character variable does not. We can see that in the background, R assigns and stores the logical and factor variables as integers. However, we are unable take the mean for the factor variable as R treats the integers as levels in a categorical variable.
