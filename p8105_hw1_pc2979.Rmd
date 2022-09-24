@@ -5,36 +5,46 @@ output:
 ---
 
 ## Load packages
-```{r, echo = FALSE}
+```{r, message = FALSE}
 library(tidyverse)
 ```
 
 ## Problem 1 
 
-Write a short description of the penguins dataset (not the penguins_raw dataset) using inline R code. In your discussion, please include...
+Write a short description of the penguins_df dataset (not the penguins_df_raw dataset) using inline R code. In your discussion, please include...
 
 * the data in this dataset, including names / values of important variables
 * the size of the dataset (using nrow and ncol)
 * the mean flipper length
 ```{r, collapse = TRUE}
-data("penguins", package = "palmerpenguins")
+# Import data
+penguins_df <- data("penguins", package = "palmerpenguins")
+penguins_df <- janitor::clean_names(penguins)
+```
 
+```{r, results = 'hide'}
 # Total of 344 observations with 8 variables
-nrow(penguins)
-ncol(penguins)
+skimr::skim(penguins_df)
+```
 
+```{r}
 # Important variables include: species, body_mass_g, sex, year, flipper_length_mm
-head(penguins)
+head(penguins_df)
+str(penguins_df)
 
-# mean flipper length in mm: 200.9152
-mean(penguins$flipper_length_mm, na.rm = TRUE)
+# mean flipper length in mm
+mean(penguins_df$flipper_length_mm, na.rm = TRUE)
 
-penguin_scatter <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + 
+penguin_scatter <- ggplot(penguins_df, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + 
   geom_point() +
   xlab("Bill Length (mm)") +
   ylab("Flipper Length (mm)")
 ggsave("penguin_scatter_plot.pdf", plot = penguin_scatter)
 ```
+
+Penguins dataset has species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex, year. There are `r nrow(penguins_df)` rows and
+`r ncol(penguins_df)` columns, and mean flipper length in mm is `r mean(penguins_df$flipper_length_mm, na.rm = TRUE)` mm.
+
 
 ## Problem 2
 
@@ -49,7 +59,7 @@ Create a data frame comprised of...
 set.seed(1)
 
 df <- tibble(
-  norm = rnorm(10, sd = 1),
+  norm = rnorm(10),
   logic = c(FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE),
   char = c("hi", "my", "name", "is", "barry", "and", "i", "go", "to", "mailman"),
   factor = factor(c("blue", "yellow", "orange", "blue", "yellow", "orange", "blue", "yellow", "orange", "blue"))
