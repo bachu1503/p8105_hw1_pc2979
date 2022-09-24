@@ -80,5 +80,8 @@ We are able to take the mean of norm and logic.
 as.numeric(df$logic)
 as.numeric(df$char)
 as.numeric(df$factor)
+
+df$factor <- as.numeric(df$factor)
+mean(df$factor)
 ```
-We see the logical and factor variables become numerical variables while the character variable does not. We can see that in the background, R assigns and stores the logical and factor variables as integers. However, we are unable take the mean for the factor variable as R treats the integers as levels in a categorical variable.
+We see the logical and factor variables become numerical variables while the character variable does not. We can see that in the background, R assigns and stores the logical and factor variables as integers. However, we are unable take the mean directly for the factor variable as R treats the integers as levels in a categorical variable. However, after converting the factor variable to numeric, we are able to take the mean.
